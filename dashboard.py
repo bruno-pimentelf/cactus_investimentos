@@ -1,5 +1,6 @@
 import streamlit as st
 
+st.set_page_config(page_title="Investimentos Cactus", page_icon="🌵")
 def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=None, calc='fv'):
     if calc == 'fv':
         if pv is not None and taxa is not None and n_periodos is not None and pmt is not None:
