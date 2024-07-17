@@ -20,10 +20,8 @@ def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=N
         return pv
     
     elif calc == 'pmt':
-        if pv is not None and taxa is not None and n_periodos is not None:
-            pmt = pv * taxa / (1 - (1 + taxa) ** -n_periodos)
-        elif fv is not None and taxa is not None and n_periodos is not None:
-            pmt = fv * taxa / ((1 + taxa) ** n_periodos - 1)
+        if pv is not None and taxa is not None and n_periodos is not None and fv is not None:
+            pmt = (fv - pv * (1 + taxa) ** n_periodos) / (((1 + taxa) ** n_periodos - 1) / taxa)
         else:
             raise ValueError("Parâmetros insuficientes para calcular o pagamento.")
         return pmt
@@ -69,10 +67,11 @@ elif tipo_calc == 'Pagamento Mensal':
     st.markdown("### Pagamento Mensal")
     st.markdown("O pagamento mensal (PMT) é o valor que você precisa aportar a cada período para atingir um valor futuro desejado.")
     pv = st.number_input("Valor Presente (PV)", min_value=0.0, format="%f", help="O valor atual do seu investimento. Exemplo: 1000")
+    fv = st.number_input("Valor Futuro (FV)", min_value=0.0, format="%f", help="O valor futuro desejado do seu investimento. Exemplo: 2000")
     taxa = st.number_input("Taxa de Juros (decimal)", min_value=0.0, max_value=1.0, format="%f", help="A taxa de juros por período (em decimal). Exemplo: 0.05 para 5%")
     n_periodos = st.number_input("Número de Períodos (N)", min_value=0, format="%d", help="O número de períodos durante os quais o investimento é feito. Exemplo: 10")
     if st.button("Calcular Pagamento Mensal"):
-        resultado = calculadora_investimento(pv=pv, taxa=taxa, n_periodos=n_periodos, calc='pmt')
+        resultado = calculadora_investimento(pv=pv, fv=fv, taxa=taxa, n_periodos=n_periodos, calc='pmt')
         st.write(f"Pagamento por Período: {resultado:.2f}")
 
 # Execute a aplicação com: streamlit run investment_app.py
