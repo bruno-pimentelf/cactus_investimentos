@@ -12,7 +12,7 @@ def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=N
     
     elif calc == 'pv':
         if fv is not None and taxa is not None and n_periodos is not None and pmt is not None:
-            pv = fv / (1 + taxa) ** n_periodos + pmt * ((1 - (1 + taxa) ** -n_periodos) / taxa)
+            pv = fv / (1 + taxa) ** n_periodos + pmt * (1 - (1 + taxa) ** -n_periodos) / taxa
         elif fv is not None and taxa is not None and n_periodos is not None:
             pv = fv / (1 + taxa) ** n_periodos
         else:
@@ -55,10 +55,10 @@ if tipo_calc == 'Valor Futuro':
 elif tipo_calc == 'Valor Presente':
     st.markdown("### Valor Presente")
     st.markdown("O valor presente (PV) é o valor atual de uma quantia que será recebida no futuro, descontada por uma taxa de juros.")
-    fv = st.number_input("Valor Futuro (FV)", min_value=0.0, format="%f", help="O valor futuro do seu investimento. Exemplo: 2000")
-    pmt = st.number_input("Pagamento por Período (PMT)", min_value=0.0, format="%f", help="O valor que você paga em cada período. Exemplo: 100")
-    taxa = st.number_input("Taxa de Juros (decimal)", min_value=0.0, max_value=1.0, format="%f", help="A taxa de juros por período (em decimal). Exemplo: 0.05 para 5%")
-    n_periodos = st.number_input("Número de Períodos (N)", min_value=0, format="%d", help="O número de períodos durante os quais o investimento é feito. Exemplo: 10")
+    fv = st.number_input("Valor Futuro (FV)", min_value=0.0, format="%f", help="O valor futuro desejado do seu investimento. Exemplo: 2500000")
+    pmt = st.number_input("Pagamento por Período (PMT)", min_value=0.0, format="%f", help="O valor que você paga em cada período. Exemplo: 2700")
+    taxa = st.number_input("Taxa de Juros (decimal)", min_value=0.0, max_value=1.0, format="%f", help="A taxa de juros por período (em decimal). Exemplo: 0.005 para 0.5%")
+    n_periodos = st.number_input("Número de Períodos (N)", min_value=0, format="%d", help="O número de períodos durante os quais o investimento é feito. Exemplo: 324")
     if st.button("Calcular Valor Presente"):
         resultado = calculadora_investimento(fv=fv, pmt=pmt, taxa=taxa, n_periodos=n_periodos, calc='pv')
         st.write(f"Valor Presente: {resultado:.2f}")
