@@ -10,15 +10,6 @@ def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=N
             raise ValueError("Parâmetros insuficientes para calcular o valor futuro.")
         return fv
     
-    elif calc == 'pv':
-        if fv is not None and taxa is not None and n_periodos is not None and pmt is not None:
-            pv = fv / (1 + taxa) ** n_periodos + pmt * (1 - (1 + taxa) ** -n_periodos) / taxa
-        elif fv is not None and taxa is not None and n_periodos is not None:
-            pv = fv / (1 + taxa) ** n_periodos
-        else:
-            raise ValueError("Parâmetros insuficientes para calcular o valor presente.")
-        return pv
-    
     elif calc == 'pmt':
         if pv is not None and taxa is not None and n_periodos is not None and fv is not None:
             pmt = (fv - pv * (1 + taxa) ** n_periodos) / (((1 + taxa) ** n_periodos - 1) / taxa)
@@ -37,9 +28,9 @@ def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=N
 
 # Aplicativo Streamlit
 st.title("Calculadora de Investimentos 🌵 - Instituto Cactus")
-st.markdown("Esta calculadora ajuda a determinar o valor futuro, valor presente ou o pagamento mensal de um investimento com base nos dados fornecidos.")
+st.markdown("Esta calculadora ajuda a determinar o valor futuro ou o pagamento mensal de um investimento com base nos dados fornecidos.")
 
-tipo_calc = st.selectbox("Selecione o Tipo de Cálculo", ['Valor Futuro', 'Valor Presente', 'Pagamento Mensal'])
+tipo_calc = st.selectbox("Selecione o Tipo de Cálculo", ['Valor Futuro', 'Pagamento Mensal'])
 
 if tipo_calc == 'Valor Futuro':
     st.markdown("### Valor Futuro")
@@ -51,17 +42,6 @@ if tipo_calc == 'Valor Futuro':
     if st.button("Calcular Valor Futuro"):
         resultado = calculadora_investimento(pv=pv, pmt=pmt, taxa=taxa, n_periodos=n_periodos, calc='fv')
         st.write(f"Valor Futuro: {resultado:.2f}")
-
-elif tipo_calc == 'Valor Presente':
-    st.markdown("### Valor Presente")
-    st.markdown("O valor presente (PV) é o valor atual de uma quantia que será recebida no futuro, descontada por uma taxa de juros.")
-    fv = st.number_input("Valor Futuro (FV)", min_value=0.0, format="%f", help="O valor futuro desejado do seu investimento. Exemplo: 2500000")
-    pmt = st.number_input("Pagamento por Período (PMT)", min_value=0.0, format="%f", help="O valor que você paga em cada período. Exemplo: 2700")
-    taxa = st.number_input("Taxa de Juros (decimal)", min_value=0.0, max_value=1.0, format="%f", help="A taxa de juros por período (em decimal). Exemplo: 0.005 para 0.5%")
-    n_periodos = st.number_input("Número de Períodos (N)", min_value=0, format="%d", help="O número de períodos durante os quais o investimento é feito. Exemplo: 324")
-    if st.button("Calcular Valor Presente"):
-        resultado = calculadora_investimento(fv=fv, pmt=pmt, taxa=taxa, n_periodos=n_periodos, calc='pv')
-        st.write(f"Valor Presente: {resultado:.2f}")
 
 elif tipo_calc == 'Pagamento Mensal':
     st.markdown("### Pagamento Mensal")
