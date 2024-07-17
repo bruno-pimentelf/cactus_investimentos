@@ -1,6 +1,8 @@
 import streamlit as st
 
+# Configuração da página
 st.set_page_config(page_title="Investimentos Cactus", page_icon="🌵")
+
 def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=None, calc='fv'):
     if calc == 'fv':
         if pv is not None and taxa is not None and n_periodos is not None and pmt is not None:
@@ -30,12 +32,14 @@ def calculadora_investimento(fv=None, pv=None, pmt=None, taxa=None, n_periodos=N
 # Aplicativo Streamlit
 st.title("Calculadora de Investimentos 🌵 - Instituto Cactus")
 st.markdown("Esta calculadora ajuda a determinar o valor futuro ou o pagamento mensal de um investimento com base nos dados fornecidos.")
+st.markdown("**Nota:** Utilize ponto (.) como separador decimal. Exemplo: 0.05 para 5% de taxa de juros.")
 
 tipo_calc = st.selectbox("Selecione o Tipo de Cálculo", ['Valor Futuro', 'Pagamento Mensal'])
 
 if tipo_calc == 'Valor Futuro':
     st.markdown("### Valor Futuro")
     st.markdown("O valor futuro (FV) é o valor que um investimento terá em uma data futura baseada em uma taxa de juros especificada.")
+    st.markdown("**Exemplo:** Para um valor presente de 1000, pagamentos periódicos de 100, uma taxa de juros de 5% (0.05) e 10 períodos.")
     pv = st.number_input("Valor Presente (PV)", min_value=0.0, format="%f", help="O valor atual do seu investimento. Exemplo: 1000")
     pmt = st.number_input("Pagamento por Período (PMT)", min_value=0.0, format="%f", help="O valor que você paga em cada período. Exemplo: 100")
     taxa = st.number_input("Taxa de Juros (decimal)", min_value=0.0, max_value=1.0, format="%f", help="A taxa de juros por período (em decimal). Exemplo: 0.05 para 5%")
@@ -47,6 +51,7 @@ if tipo_calc == 'Valor Futuro':
 elif tipo_calc == 'Pagamento Mensal':
     st.markdown("### Pagamento Mensal")
     st.markdown("O pagamento mensal (PMT) é o valor que você precisa aportar a cada período para atingir um valor futuro desejado.")
+    st.markdown("**Exemplo:** Para um valor presente de 1000, um valor futuro de 2000, uma taxa de juros de 5% (0.05) e 10 períodos.")
     pv = st.number_input("Valor Presente (PV)", min_value=0.0, format="%f", help="O valor atual do seu investimento. Exemplo: 1000")
     fv = st.number_input("Valor Futuro (FV)", min_value=0.0, format="%f", help="O valor futuro desejado do seu investimento. Exemplo: 2000")
     taxa = st.number_input("Taxa de Juros (decimal)", min_value=0.0, max_value=1.0, format="%f", help="A taxa de juros por período (em decimal). Exemplo: 0.05 para 5%")
